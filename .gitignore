@@ -1,0 +1,22 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+errored.tfstate
+
+# Terraform variables (optional safety)
+*.tfvars
+*.tfvars.json
+
+# AWS credentials
+.aws/
+.env
+
+# OS / Editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
