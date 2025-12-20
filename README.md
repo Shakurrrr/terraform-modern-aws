@@ -99,7 +99,7 @@ Modular, reusable infrastructure
 Team-ready from day one
 
 🔐 Terraform State & Locking
-
+```
 Remote state stored in S3
 
 State locking enforced via DynamoDB
@@ -117,9 +117,9 @@ State corruption
 Concurrent applies
 
 Accidental production changes
-
+```
 💰 Cost Control (Built-In)
-
+```
 Monthly AWS budget enforced via Terraform
 
 Alerting before costs spiral
@@ -129,9 +129,9 @@ Serverless services only
 Designed to be safe on limited AWS credits
 
 Cost control is not an afterthought in this project — it’s foundational.
-
+```
 🔁 CI/CD Workflow (Frontend)
-
+```
 Every push to main that changes frontend files triggers:
 
 GitHub Actions workflow
@@ -145,9 +145,9 @@ Content updates globally via CDN
 No manual uploads.
 No console clicks.
 No admin credentials.
-
+```
 🧠 Real Problems Encountered (and Solved)
-
+```
 This project intentionally surfaced real-world issues:
 
 IAM permission failures during Terraform bootstrap
@@ -165,9 +165,9 @@ GitHub Actions + AWS integration edge cases
 Git history conflicts during repo initialization
 
 Each problem was solved the way it would be in a real platform team — by understanding the system, not applying hacks.
-
+```
 📖 Full Deep-Dive Article
-
+```
 A complete walkthrough explaining design decisions, tradeoffs, mistakes, and fixes is published on Medium:
 
 👉 Building a Modern Terraform Project Like a Pro
