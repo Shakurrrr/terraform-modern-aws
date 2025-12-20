@@ -43,17 +43,47 @@ Serverless-first design — Zero always-on compute
 
 📂 Repository Structure
 terraform-modern-aws/
-├── bootstrap/              # One-time remote state bootstrap
+├── bootstrap/                  # One-time remote state bootstrap
+│   └── main.tf
+│
 ├── envs/
-│   ├── dev/                # Development environment
-│   └── prod/               # Production environment (future)
+│   ├── dev/                    # Development environment
+│   │   ├── backend.tf
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   │
+│   └── prod/                   # Production environment (future)
+│       ├── backend.tf
+│       ├── main.tf
+│       ├── variables.tf
+│       └── outputs.tf
+│
 ├── modules/
-│   ├── state_backend/      # S3 + DynamoDB remote state
-│   ├── budgets/            # AWS cost controls
-│   └── edge_frontend/      # CloudFront + private S3
-├── site/                   # Static frontend content
-├── .github/workflows/      # GitHub Actions CI/CD
+│   ├── state_backend/          # S3 + DynamoDB remote state
+│   │   └── main.tf
+│   │
+│   ├── budgets/                # AWS cost controls
+│   │   └── main.tf
+│   │
+│   └── edge_frontend/          # CloudFront + private S3
+│       ├── main.tf
+│       ├── variables.tf
+│       └── outputs.tf
+│
+├── site/                       # Static frontend content
+│   └── index.html
+│
+├── .github/
+│   └── workflows/              # GitHub Actions CI/CD
+│       ├── frontend.yml
+│       ├── terraform-plan.yml
+│       ├── terraform-apply.yml
+│       └── drift-detect.yml
+│
+├── .gitignore
 └── README.md
+
 
 Why this structure matters
 
