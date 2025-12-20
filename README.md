@@ -42,6 +42,7 @@ Serverless-first design — Zero always-on compute
 ⚠️ No EC2, no NAT Gateway, no ALB, no idle costs.
 
 📂 Repository Structure
+```
 terraform-modern-aws/
 ├── bootstrap/                  # One-time remote state bootstrap
 │   └── main.tf
@@ -83,7 +84,7 @@ terraform-modern-aws/
 │
 ├── .gitignore
 └── README.md
-
+```
 
 Why this structure matters
 
