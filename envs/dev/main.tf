@@ -14,6 +14,11 @@ terraform {
 provider "aws" {
   region = var.region
 
+  # Phase 2: Terraform Execution Role (assumed by devops-user)
+  assume_role {
+    role_arn = "arn:aws:iam::559938827680:role/terraform-execution-role"
+  }
+
   default_tags {
     tags = {
       project    = var.project
@@ -23,6 +28,7 @@ provider "aws" {
     }
   }
 }
+
 
 
 # Get AWS Account ID
@@ -41,7 +47,8 @@ module "budget" {
 # Edge Frontend (S3 + CloudFront)
 
 module "edge_frontend" {
-  source = "../../modules/edge_frontend"
+  source            = "../../modules/edge_frontend"
+  api_origin_domain = module.api_gateway.api_domain
 
   # S3 bucket names must be globally unique,
   # so we include the AWS account ID
