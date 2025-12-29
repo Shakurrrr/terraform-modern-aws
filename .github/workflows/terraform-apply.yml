@@ -18,7 +18,6 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      # ✅ THIS IS THE MISSING FIX
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
