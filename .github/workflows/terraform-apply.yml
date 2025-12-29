@@ -3,6 +3,9 @@ name: Terraform Apply Dev
 on:
   push:
     branches: [main]
+    paths:
+      - "modules/**"
+      - "envs/**"
 
 jobs:
   apply:
@@ -15,6 +18,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+<<<<<<< HEAD
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -22,6 +26,15 @@ jobs:
             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws-region: ${{ secrets.AWS_REGION }}
 
+=======
+      # ✅ THIS IS THE MISSING FIX
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+>>>>>>> 0ce77a387e93d14189c6d7b5350201c6289faa26
 
       - name: Terraform Init (Dev)
         run: terraform -chdir=envs/dev init
