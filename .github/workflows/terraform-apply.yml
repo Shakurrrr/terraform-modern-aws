@@ -29,4 +29,5 @@ jobs:
         run: terraform -chdir=envs/dev init
 
       - name: Terraform Apply (Dev)
-        run: terraform -chdir=envs/dev apply -auto-approve
+        run: terraform -chdir=envs/dev apply -auto-approve -var-file="terraform.tfvars"
+
