@@ -24,7 +24,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
->>>>>>> 0ce77a387e93d14189c6d7b5350201c6289faa26
 
       - name: Terraform Init (Dev)
         run: terraform -chdir=envs/dev init
