@@ -18,6 +18,7 @@ jobs:
     env:
       TF_INPUT: "false"
       TF_IN_AUTOMATION: "true"
+      TF_VAR_alert_email: ${{ secrets.ALERT_EMAIL }}
 
     steps:
       - name: Checkout
