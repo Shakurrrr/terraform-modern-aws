@@ -7,9 +7,17 @@ on:
       - "modules/**"
       - "envs/**"
 
+concurrency:
+  group: terraform-dev
+  cancel-in-progress: false
+
 jobs:
   apply:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TF_INPUT: "false"
+      TF_IN_AUTOMATION: "true"
 
     steps:
       - name: Checkout
@@ -26,8 +34,10 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Terraform Init (Dev)
-        run: terraform -chdir=envs/dev init
+        run: terraform -chdir=envs/dev init -input=false
+
+      - name: Terraform Validate (Dev)
+        run: terraform -chdir=envs/dev validate
 
       - name: Terraform Apply (Dev)
-        run: terraform -chdir=envs/dev apply -auto-approve -var-file="terraform.tfvars"
-
+        run: terraform -chdir=envs/dev apply -auto-approve -input=false -no-color -var-file=terraform.tfvars
