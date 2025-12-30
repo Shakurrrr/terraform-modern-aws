@@ -7,8 +7,7 @@ on:
       - "modules/**"
       - "envs/**"
       - ".github/workflows/terraform-apply.yml"
-    paths-ignore:
-      - "site/**"
+    
 
 concurrency:
   group: terraform-dev
