@@ -6,6 +6,9 @@ on:
     paths:
       - "modules/**"
       - "envs/**"
+      - ".github/workflows/terraform-apply.yml"
+    paths-ignore:
+      - "site/**"
 
 concurrency:
   group: terraform-dev
@@ -14,21 +17,18 @@ concurrency:
 jobs:
   apply:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     env:
       TF_INPUT: "false"
       TF_IN_AUTOMATION: "true"
       TF_VAR_alert_email: ${{ secrets.ALERT_EMAIL }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v3
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -38,10 +38,10 @@ jobs:
         run: terraform fmt -check -recursive
 
       - name: Terraform Init (Dev)
-        run: terraform -chdir=envs/dev init -input=false
+        run: terraform -chdir=envs/dev init -input=false -lock-timeout=10m
 
       - name: Terraform Validate (Dev)
         run: terraform -chdir=envs/dev validate
 
       - name: Terraform Apply (Dev)
-        run: terraform -chdir=envs/dev apply -lock-timeout=5m -auto-approve -input=false -no-color -var-file=terraform.tfvars
+        run: terraform -chdir=envs/dev apply -lock-timeout=10m -auto-approve -input=false -no-color -var-file=terraform.tfvars
