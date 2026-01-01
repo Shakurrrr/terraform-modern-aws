@@ -14,3 +14,4 @@ resource "aws_route53_record" "cdn_alias" {
     evaluate_target_health = false
   }
 }
+# trigger pipeline
