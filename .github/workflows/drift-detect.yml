@@ -56,6 +56,6 @@ jobs:
             echo "⚠️ Drift detected! Terraform plan found changes."
             exit 1
           else
-            echo "❌ Drift check failed due to an error (likely lock or AWS issue)."
+            echo "Drift check failed due to an error (likely lock or AWS issue)."
             exit 1
           fi
