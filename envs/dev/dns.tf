@@ -1,10 +1,16 @@
+locals {
+  dns_enabled = var.enable_dns && var.domain_name != ""
+}
+
 data "aws_route53_zone" "primary" {
+  count        = local.dns_enabled ? 1 : 0
   name         = var.domain_name
   private_zone = false
 }
 
 resource "aws_route53_record" "cdn_alias" {
-  zone_id = data.aws_route53_zone.primary.zone_id
+  count   = local.dns_enabled ? 1 : 0
+  zone_id = data.aws_route53_zone.primary[0].zone_id
   name    = "app"
   type    = "A"
 
@@ -14,4 +20,3 @@ resource "aws_route53_record" "cdn_alias" {
     evaluate_target_health = false
   }
 }
-# trigger pipeline

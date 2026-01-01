@@ -27,3 +27,15 @@ variable "monthly_budget_usd" {
   type        = number
   description = "Monthly AWS budget limit for this environment"
 }
+
+variable "enable_dns" {
+  type        = bool
+  description = "Enable Route53 DNS records"
+  default     = false
+}
+
+variable "domain_name" {
+  type        = string
+  description = "Route53 domain name (example.com)"
+  default     = ""
+}
