@@ -1,0 +1,9 @@
+project_name = "modern-api"
+environment  = "prod"
+region       = "us-east-1"
+
+alert_email = "alerts@yusufelpercy@gmail.com"
+
+# optional if DNS later
+enable_dns  = false
+domain_name = ""
