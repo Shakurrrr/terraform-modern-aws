@@ -1,6 +1,5 @@
-##############################################
 # S3 Frontend Bucket (Private + Encrypted)
-##############################################
+
 
 resource "aws_s3_bucket" "frontend" {
   bucket = var.name
@@ -26,9 +25,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "frontend" {
   }
 }
 
-##############################################
 # CloudFront Origin Access Control (OAC)
-##############################################
+
 
 resource "aws_cloudfront_origin_access_control" "oac" {
   name                              = "${var.name}-oac"
@@ -38,27 +36,24 @@ resource "aws_cloudfront_origin_access_control" "oac" {
   signing_protocol                  = "sigv4"
 }
 
-##############################################
 # CloudFront Distribution (Phase 2 Extended)
-##############################################
+
 
 resource "aws_cloudfront_distribution" "cdn" {
   enabled             = true
   comment             = "Frontend CDN for ${var.name}"
   default_root_object = "index.html"
 
-  ##########################################
   # Origins
-  ##########################################
 
-  # ✅ S3 Origin (Phase 1)
+  # S3 Origin (Phase 1)
   origin {
     domain_name              = aws_s3_bucket.frontend.bucket_regional_domain_name
     origin_id                = "s3-frontend"
     origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
   }
 
-  # ✅ API Gateway Origin (Phase 2) - Optional
+  # API Gateway Origin (Phase 2) - Optional
   dynamic "origin" {
     for_each = var.api_origin_domain != null ? [1] : []
 
@@ -75,9 +70,7 @@ resource "aws_cloudfront_distribution" "cdn" {
     }
   }
 
-  ##########################################
   # Default Cache Behavior (Frontend)
-  ##########################################
 
   default_cache_behavior {
     target_origin_id       = "s3-frontend"
@@ -94,9 +87,7 @@ resource "aws_cloudfront_distribution" "cdn" {
     }
   }
 
-  ##########################################
   # Ordered Cache Behavior (API Routing)
-  ##########################################
 
   dynamic "ordered_cache_behavior" {
     for_each = var.api_origin_domain != null ? [1] : []
@@ -106,14 +97,14 @@ resource "aws_cloudfront_distribution" "cdn" {
       target_origin_id       = "api-origin"
       viewer_protocol_policy = "redirect-to-https"
 
-      # ✅ Allow full API methods
+      # Allow full API methods
       allowed_methods = ["GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH", "DELETE"]
       cached_methods  = ["GET", "HEAD"]
 
       forwarded_values {
         query_string = true
 
-        # ✅ Forward required headers for APIs
+        # Forward required headers for APIs
         headers = ["Origin", "Authorization", "Content-Type"]
 
         cookies {
@@ -121,16 +112,14 @@ resource "aws_cloudfront_distribution" "cdn" {
         }
       }
 
-      # ✅ Disable caching for API requests
+      # Disable caching for API requests
       min_ttl     = 0
       default_ttl = 0
       max_ttl     = 0
     }
   }
 
-  ##########################################
   # Custom Domain + ACM Support (Phase 2)
-  ##########################################
 
   aliases = var.custom_domain != null ? [var.custom_domain] : []
 
@@ -142,9 +131,7 @@ resource "aws_cloudfront_distribution" "cdn" {
     minimum_protocol_version = var.acm_certificate_arn == null ? null : "TLSv1.2_2021"
   }
 
-  ##########################################
   # Restrictions
-  ##########################################
 
   restrictions {
     geo_restriction {
@@ -152,16 +139,12 @@ resource "aws_cloudfront_distribution" "cdn" {
     }
   }
 
-  ##########################################
   # Tags
-  ##########################################
 
   tags = var.tags
 }
 
-##############################################
 # Bucket Policy (Allow CloudFront Read Only)
-##############################################
 
 data "aws_iam_policy_document" "bucket_policy" {
   statement {
