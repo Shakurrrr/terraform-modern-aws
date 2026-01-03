@@ -5,7 +5,7 @@ variable "monthly_limit_usd" {
 
 variable "email" {
   type        = string
-  description = "Email address to receive budget alerts"
+  description = "my email address to receive budget alerts"
 }
 
 resource "aws_budgets_budget" "monthly" {
